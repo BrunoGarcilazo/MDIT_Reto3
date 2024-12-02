@@ -1,0 +1,69 @@
+openapi: 3.1.0
+info:
+  title: Feedback Submission API
+  description: API to send feedback data to the specified `/feedback` endpoint via a `POST` request.
+  version: 1.0.0
+servers:
+  - url:  <URL>
+    description: Main server
+paths:
+  /feedback:
+    post:
+      operationId: sendFeedback
+      summary: Submit feedback data to the endpoint
+      description: This endpoint accepts a rating, positive feedback, and negative feedback.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                valuacion:
+                  type: integer
+                  description: Rating value (e.g., 1-5)
+                a_favor:
+                  type: string
+                  description: Positive aspects of the experience
+                en_contra:
+                  type: string
+                  description: Negative aspects of the experience
+                a_favor_category:
+                  type: string
+                  description: Categories of Positive aspects of the experience
+                en_contra_category:
+                  type: string
+                  description: Categories of Negative aspects of the experience
+              required:
+                - valuacion
+                - a_favor
+                - en_contra
+                - a_favor_category
+                - en_contra_category
+      responses:
+        '200':
+          description: Successful submission of feedback
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates if the submission was successful
+                  message:
+                    type: string
+                    description: Response message
+                  submittedData:
+                    type: object
+                    properties:
+                      valuacion:
+                        type: integer
+                      a_favor:
+                        type: string
+                      en_contra:
+                        type: string
+        '400':
+          description: Bad request due to invalid input data
+        '500':
+          description: Internal server error
